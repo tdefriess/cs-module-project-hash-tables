@@ -99,6 +99,11 @@ class HashTable:
         if self.storage[index] is None:
             self.storage[index] = HashTableEntry(key, value)
         else:
+            curr = self.storage[index]
+            while curr is not None:
+                if curr.key == key:
+                    curr.value = value
+                    return
             old_head = self.storage[index]
             self.storage[index] = HashTableEntry(key, value)
             self.storage[index].next = old_head
@@ -122,7 +127,7 @@ class HashTable:
             self.storage[index] = None
             self.stored -= 1
             if self.get_load_factor() < 0.2:
-                        self.resize(self.capacity / 2)
+                        self.resize(int(self.capacity / 2))
         else:
             curr = self.storage[index].next
             prev= self.storage[index]
@@ -133,7 +138,7 @@ class HashTable:
                     curr = None
                     self.stored -= 1
                     if self.get_load_factor() < 0.2:
-                        self.resize(self.capacity / 2)
+                        self.resize(int(self.capacity / 2))
                     return 
                 prev = curr
                 curr = curr.next
