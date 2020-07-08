@@ -111,10 +111,23 @@ class HashTable:
         """
         # Your code here
         index = self.hash_index(key)
-        if self.storage[index] is not None:
+        # if head is key and has no chain, delete:
+        if self.storage[index].next is None and self.storage[index].key == key:
             self.storage[index] = None
         else:
-            return print('Warning: key not found')
+            curr = self.storage[index].next
+            prev= self.storage[index]
+
+            while curr is not None:
+                if curr.key == key:
+                    prev.next = curr.next
+                    curr = None
+                    return 
+                prev = curr
+                curr = curr.next
+
+
+        return print('Warning: key not found')
 
 
     def get(self, key):
