@@ -92,7 +92,13 @@ class HashTable:
         Implement this.
         """
         index = self.hash_index(key)
-        self.storage[index] = HashTableEntry(key, value)
+
+        if self.storage[index] is None:
+            self.storage[index] = HashTableEntry(key, value)
+        else:
+            old_head = self.storage[index]
+            self.storage[index] = HashTableEntry(key, value)
+            self.storage[index].next = old_head
 
 
     def delete(self, key):
@@ -121,10 +127,13 @@ class HashTable:
         """
         index = self.hash_index(key)
         hash_entry = self.storage[index]
-        if hash_entry is not None:
-            return hash_entry.value
-        else:
-            return None
+        while hash_entry is not None:
+            if hash_entry.key == key:
+                return hash_entry.value
+            else:
+                hash_entry = hash_entry.next
+
+        return None
 
 
     def resize(self, new_capacity):
