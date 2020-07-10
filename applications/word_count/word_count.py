@@ -1,5 +1,20 @@
 def word_count(s):
-    # Your code here
+    new_string = s.lower()
+    for char in new_string:
+        for char in new_string:
+            if char in '":;,.-+=/\|[]{}()*^&':
+                new_string = new_string.replace(char, '')
+
+    word_list = new_string.split()
+
+    word_count = {}
+
+    for word in word_list:
+        if word in word_count:
+            word_count[word] += 1
+        else:
+            word_count[word] = 1
+    return word_count
 
 
 
